@@ -50,7 +50,7 @@ behavioral differences.
 
 
 ## Tools
-PostgreSQL, pgAdmin, Google Colab (pandas, for CSV cleaning of menu.csv file — fixing 
+PostgreSQL, pgAdmin, Google Colab (pandas, for CSV cleaning of restaurant csv file — fixing 
 embedded newlines and inconsistent quoting before import)
 
 ## Files
