@@ -25,7 +25,18 @@ Also confirmed `restaurant.cuisine` and `menu.cuisine` are exact
 duplicates (spot-checked via join) — a data redundancy, not two 
 meaningfully different fields.
 
-**2. Who are the top-spending customers?**
+**2. Which city generates the most total order revenue?**
+Tirupati leads with ₹4.25Cr, followed by combined area+city entries 
+like "Electronic City, Bangalore" (₹2.86Cr) and "Baner, Pune" (₹2.68Cr). 
+Note: the `city` column isn't consistently granular — some values are 
+just a city name (e.g., "Tirupati", "Raipur"), while others combine a 
+specific neighborhood with the city (e.g., "Malviya Nagar, Delhi", 
+"Rohini, Delhi"). This means revenue for metros like Delhi and Ahmedabad 
+is likely split across multiple differently-formatted rows rather than 
+rolled into one true city-level total — similar to the cuisine-tag 
+fragmentation issue found earlier.
+
+**3. Who are the top-spending customers?**
 Initial ranking (by total `sales_amount`) was dominated entirely by 
 bulk/corporate-style orders, not genuine individual spending. Used 
 percentile analysis (`PERCENTILE_CONT`) on `sales_qty` to find a 
@@ -38,7 +49,7 @@ customer value. Verified the new top spenders' order counts matched
 their distinct order dates, confirming genuine repeat-purchase behavior 
 (1–5 separate orders each, mostly on different days).
 
-**3. Does spending differ by occupation?**
+**4. Does spending differ by occupation?**
 Average order value was nearly identical across all occupation 
 categories (₹6,400–6,600 for Student, Employee, Self Employed, 
 House wife) — occupation does not meaningfully predict individual 
@@ -47,7 +58,7 @@ by occupation were fully explained by population size (number of users
 per category matched order volume ranking exactly), not by underlying 
 behavioral differences.
 
-**4. Data quality check — orphaned orders**
+**5. Data quality check — orphaned orders**
 Used a `LEFT JOIN` from `orders` to `restaurant` to find orders with no 
 matching restaurant record. Investigated further and confirmed these 
 aren't mismatched references (i.e., pointing to a restaurant ID that 
