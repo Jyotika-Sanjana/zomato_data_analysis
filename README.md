@@ -47,7 +47,15 @@ by occupation were fully explained by population size (number of users
 per category matched order volume ranking exactly), not by underlying 
 behavioral differences.
 
-
+**4. Data quality check — orphaned orders**
+Used a `LEFT JOIN` from `orders` to `restaurant` to find orders with no 
+matching restaurant record. Investigated further and confirmed these 
+aren't mismatched references (i.e., pointing to a restaurant ID that 
+doesn't exist) — instead, `r_id` itself is `NULL` in the source data for 
+these orders, meaning restaurant assignment was never captured at all. 
+This means earlier revenue-by-cuisine analysis (which used an inner 
+JOIN) silently excluded these orders, slightly undercounting true total 
+revenue.
 
 ## Tools
 PostgreSQL, pgAdmin, Google Colab (pandas, for CSV cleaning of restaurant csv file — fixing 
