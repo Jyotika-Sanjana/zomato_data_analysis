@@ -26,15 +26,19 @@ duplicates (spot-checked via join) — a data redundancy, not two
 meaningfully different fields.
 
 **2. Which city generates the most total order revenue?**
-Tirupati leads with ₹4.25Cr, followed by combined area+city entries 
-like "Electronic City, Bangalore" (₹2.86Cr) and "Baner, Pune" (₹2.68Cr). 
-Note: the `city` column isn't consistently granular — some values are 
-just a city name (e.g., "Tirupati", "Raipur"), while others combine a 
-specific neighborhood with the city (e.g., "Malviya Nagar, Delhi", 
-"Rohini, Delhi"). This means revenue for metros like Delhi and Ahmedabad 
-is likely split across multiple differently-formatted rows rather than 
-rolled into one true city-level total — similar to the cuisine-tag 
-fragmentation issue found earlier.
+Initial ranking (grouping directly on the raw `city` column) showed 
+Tirupati as the top city (₹4.25Cr). Investigation revealed the `city` 
+field inconsistently mixes two formats — a plain city name for some 
+rows ("Tirupati"), and "neighborhood,city" for others 
+("Malviya Nagar,Delhi"). This fragmented every major metro checked 
+across dozens of separate rows: Delhi (30 rows, true total ≈₹10.59Cr), 
+Bangalore (32 rows, ≈₹9.33Cr), Pune (29 rows, ≈₹7.15Cr), and Ahmedabad 
+(12 rows, ≈₹7.64Cr) — each genuinely larger than Tirupati's "#1" figure 
+once properly combined. Confirmed this pattern held across four 
+different metros before concluding naive aggregation on this column 
+produces a materially wrong top-city ranking, systematically 
+undercounting every major metro due to inconsistent location-field 
+formatting.
 
 **3. Who are the top-spending customers?**
 Initial ranking (by total `sales_amount`) was dominated entirely by 
