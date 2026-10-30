@@ -21,6 +21,38 @@ GROUP BY r.city
 ORDER BY TotalRevenue DESC
 LIMIT 10;
 
+-- Total revenue by city for locations containing  “Delhi”
+SELECT r.city, SUM(o.sales_amount) AS TotalRevenueDelhi
+FROM zomato_retail.restaurant r 
+JOIN zomato_retail.orders o ON r.id = o.r_id
+WHERE r.city LIKE '%Delhi%'
+GROUP BY r.city
+ORDER BY TotalRevenueDelhi DESC
+
+--Total revenue by city for locations containing  “Ahmedabad”
+SELECT r.city, SUM(o.sales_amount) AS TotalRevenueAhmedabad
+FROM zomato_retail.restaurant r 
+JOIN zomato_retail.orders o ON r.id = o.r_id
+WHERE r.city LIKE '%Ahmedabad%'
+GROUP BY r.city
+ORDER BY TotalRevenueAhmedabad DESC
+
+-- Total revenue by city for locations containing "Bangalore"
+SELECT r.city, SUM(o.sales_amount) AS TotalRevenueBangalore
+FROM zomato_retail.restaurant r 
+JOIN zomato_retail.orders o ON r.id = o.r_id
+WHERE r.city LIKE '%Bangalore%'
+GROUP BY r.city
+ORDER BY TotalRevenueBangalore DESC
+
+-- Total revenue by city for locations containing "Pune"
+SELECT r.city, SUM(o.sales_amount) AS TotalRevenuePune
+FROM zomato_retail.restaurant r 
+JOIN zomato_retail.orders o ON r.id = o.r_id
+WHERE r.city LIKE '%Pune%'
+GROUP BY r.city
+ORDER BY TotalRevenuePune DESC
+
 -- Top 20 spenders by total order value (initial, unfiltered pass)
 SELECT u.user_id, u.name, SUM(o.sales_amount) AS TopSpenders
 FROM zomato_retail.users u
